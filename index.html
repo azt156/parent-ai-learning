@@ -624,6 +624,29 @@
             font-weight: 800;
         }
 
+        .dream-cell.selectable {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .dream-cell.selectable.is-selected {
+            border-color: var(--feds-ai);
+            box-shadow: 0 0 0 4px rgba(139, 124, 246, .20);
+        }
+
+        .dream-cell.selectable.is-selected::after {
+            content: "已選";
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 3px 7px;
+            color: #fff;
+            background: var(--feds-ai);
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
         .dream-cell.center {
             color: #fff;
             background: linear-gradient(145deg, var(--feds-primary), #2f8b73);
@@ -1025,6 +1048,18 @@
             display: none !important;
         }
 
+        .session-only {
+            display: none !important;
+        }
+
+        body.has-session .session-only {
+            display: inline-flex !important;
+        }
+
+        body.has-session .auth-only {
+            display: none !important;
+        }
+
         .locked-course {
             position: relative;
             overflow: hidden;
@@ -1310,8 +1345,10 @@
                 <span class="pill ai">✦ AI 助手</span>
                 <span class="pill">🧭 課程設計</span>
                 <a class="pill" href="#workspace">✎ 會員課程</a>
-                <button class="pill" type="button" data-scroll-auth data-auth-tab="login">登入</button>
-                <button class="pill" type="button" data-scroll-auth data-auth-tab="register">註冊</button>
+                <span class="pill session-only">已登入：<span data-user-name></span></span>
+                <button class="pill session-only" type="button" data-logout>登出</button>
+                <button class="pill auth-only" type="button" data-scroll-auth data-auth-tab="login">登入</button>
+                <button class="pill auth-only" type="button" data-scroll-auth data-auth-tab="register">註冊</button>
             </div>
         </header>
 
@@ -1515,15 +1552,15 @@
                     <div class="workspace-grid">
                     <article>
                         <div class="dream-grid" aria-label="可編輯夢想九宮格">
-                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="0" placeholder="想到什麼？"></textarea></div>
-                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="1" placeholder="想到什麼？"></textarea></div>
-                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="2" placeholder="想到什麼？"></textarea></div>
-                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="3" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell selectable" data-select-dream="0"><textarea class="dream-input" data-dream-cell="0" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell selectable" data-select-dream="1"><textarea class="dream-input" data-dream-cell="1" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell selectable" data-select-dream="2"><textarea class="dream-input" data-dream-cell="2" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell selectable" data-select-dream="3"><textarea class="dream-input" data-dream-cell="3" placeholder="想到什麼？"></textarea></div>
                             <div class="dream-cell center"><textarea class="dream-input" data-workshop-field="coreDream" placeholder="暫定夢想&#10;例：當醫生"></textarea></div>
-                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="4" placeholder="想到什麼？"></textarea></div>
-                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="5" placeholder="想到什麼？"></textarea></div>
-                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="6" placeholder="想到什麼？"></textarea></div>
-                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="7" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell selectable" data-select-dream="4"><textarea class="dream-input" data-dream-cell="4" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell selectable" data-select-dream="5"><textarea class="dream-input" data-dream-cell="5" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell selectable" data-select-dream="6"><textarea class="dream-input" data-dream-cell="6" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell selectable" data-select-dream="7"><textarea class="dream-input" data-dream-cell="7" placeholder="想到什麼？"></textarea></div>
                         </div>
 
                         <div class="save-row">
@@ -1537,12 +1574,12 @@
                     <article class="card panel" style="box-shadow:none;">
                         <div class="panel-head">
                             <div>
-                                <h3 class="panel-title" style="font-size:24px;">圈出最重要的一格</h3>
-                                <p class="panel-subtitle">選一個孩子最有感覺的詞，再用 What / Why / How 陪他整理。</p>
+                                <h3 class="panel-title" style="font-size:24px;">點選最重要的一格</h3>
+                                <p class="panel-subtitle">請在左側九宮格中點選一個孩子最有感覺的詞，再用 What / Why / How 陪他整理。</p>
                             </div>
                         </div>
                         <div class="field">
-                            <label for="chosenDream">孩子圈出的格子</label>
+                            <label for="chosenDream">孩子選出的格子</label>
                             <input class="input" id="chosenDream" type="text" data-workshop-field="chosenDream" placeholder="例：畫畫、科學實驗、幫助別人">
                         </div>
                         <div class="reflection-grid" style="margin-top:16px;">
@@ -1812,8 +1849,9 @@
             var memberCourse = document.getElementById("memberCourse");
             var tabs = document.querySelectorAll("[data-tab]");
             var scrollAuthButtons = document.querySelectorAll("[data-scroll-auth]");
-            var logoutButton = document.querySelector("[data-logout]");
+            var logoutButtons = document.querySelectorAll("[data-logout]");
             var dreamInputs = document.querySelectorAll("[data-dream-cell]");
+            var dreamSelectCells = document.querySelectorAll("[data-select-dream]");
             var workshopFields = document.querySelectorAll("[data-workshop-field]");
             var actionInputs = document.querySelectorAll("[data-action-input]");
             var actionChecks = document.querySelectorAll("[data-action-check]");
@@ -1836,6 +1874,8 @@
             var fillDemoAdminButton = document.querySelector("[data-fill-demo-admin]");
             var demoAdminEmail = "admin@demo.local";
             var demoAdminPassword = "admin1234";
+            var selectedDreamIndex = null;
+            var isWorkshopSaved = false;
 
             function setNav(open) {
                 document.body.classList.toggle("is-nav-open", open);
@@ -1955,7 +1995,36 @@
                 return centers;
             }
 
+            function isNineGridComplete() {
+                return getNineGridCenters().every(function (value) {
+                    return value && value.length > 0;
+                });
+            }
+
+            function areReflectionFieldsComplete() {
+                return ["chosenDream", "what", "why", "how"].every(function (key) {
+                    var field = document.querySelector('[data-workshop-field="' + key + '"]');
+                    return field && field.value.trim().length > 0;
+                });
+            }
+
+            function markWorkshopDirty() {
+                isWorkshopSaved = false;
+            }
+
+            function requireAdvancedUnlockReady() {
+                if (isNineGridComplete() && selectedDreamIndex !== null && areReflectionFieldsComplete() && isWorkshopSaved) {
+                    return true;
+                }
+                setWorkshopMessage("請先完成初階任務：填完中央暫定夢想與周圍 8 格、點選最重要的一格、填好 What / Why / How，並按「保存本次共學紀錄」後，才能解鎖 81 格挑戰。", "error");
+                document.querySelector(".dream-grid").scrollIntoView({ behavior: "smooth", block: "center" });
+                return false;
+            }
+
             function buildAdvancedFromNineGrid() {
+                if (!requireAdvancedUnlockReady()) {
+                    return;
+                }
                 setAdvancedOpen(true);
                 var centers = getNineGridCenters();
                 var labels = ["需要的能力", "可以練習", "找誰請教", "需要資源", "核心線索", "本週行動", "作品證明", "遇到卡關", "下次修正"];
@@ -2002,6 +2071,19 @@
                 renderList(aiQuestionList, ["先完成九宮格，再產生適合追問孩子的問題。"]);
                 renderList(aiSummaryList, ["AI 會把孩子的興趣、原因與嘗試方式整理成家長看得懂的摘要。"]);
                 renderList(aiNextStepList, ["AI 會把孩子的想法轉成這週可以試一次的小任務。"]);
+            }
+
+            function setSelectedDream(index) {
+                selectedDreamIndex = index;
+                dreamSelectCells.forEach(function (cell) {
+                    cell.classList.toggle("is-selected", Number(cell.getAttribute("data-select-dream")) === index);
+                });
+                var input = document.querySelector('[data-dream-cell="' + index + '"]');
+                var chosenField = document.getElementById("chosenDream");
+                if (input && chosenField) {
+                    chosenField.value = input.value.trim();
+                }
+                markWorkshopDirty();
             }
 
             function generateAiCoachAdvice() {
@@ -2054,6 +2136,14 @@
                 setMessage("已用 Admin 試用帳號登入，正在開啟會員課程。", "ok");
             }
 
+            function logout() {
+                localStorage.removeItem(sessionKey);
+                renderSession();
+                setAdvancedOpen(false);
+                document.getElementById("workspace").scrollIntoView({ behavior: "smooth", block: "start" });
+                setMessage("你已登出，現在看到的是公開頁內容。", "ok");
+            }
+
             function getSession() {
                 try {
                     return JSON.parse(localStorage.getItem(sessionKey));
@@ -2091,8 +2181,10 @@
                     actions: [],
                     advanced: [],
                     aiCoach: {},
+                    selectedDreamIndex: selectedDreamIndex,
                     photo: null,
-                    updatedAt: new Date().toISOString()
+                    updatedAt: new Date().toISOString(),
+                    savedAt: new Date().toISOString()
                 };
 
                 dreamInputs.forEach(function (input) {
@@ -2133,10 +2225,16 @@
 
             function renderWorkshopData() {
                 var data = getWorkshopData();
+                selectedDreamIndex = typeof data.selectedDreamIndex === "number" ? data.selectedDreamIndex : null;
+                isWorkshopSaved = Boolean(data.savedAt);
 
                 dreamInputs.forEach(function (input) {
                     var index = Number(input.getAttribute("data-dream-cell"));
                     input.value = data.dreams && data.dreams[index] ? data.dreams[index] : "";
+                });
+
+                dreamSelectCells.forEach(function (cell) {
+                    cell.classList.toggle("is-selected", Number(cell.getAttribute("data-select-dream")) === selectedDreamIndex);
                 });
 
                 workshopFields.forEach(function (field) {
@@ -2182,6 +2280,7 @@
             function saveCurrentWorkshop(messageText) {
                 var data = collectWorkshopData();
                 saveWorkshopData(data);
+                isWorkshopSaved = true;
                 setWorkshopMessage(messageText || "已保存本次親子共學紀錄。", "ok");
             }
 
@@ -2201,8 +2300,10 @@
                         { text: "選一個喜歡的角色重新設計", done: false }
                     ],
                     advanced: [],
+                    selectedDreamIndex: 0,
                     photo: null,
-                    updatedAt: new Date().toISOString()
+                    updatedAt: new Date().toISOString(),
+                    savedAt: new Date().toISOString()
                 };
                 saveWorkshopData(sample);
                 renderWorkshopData();
@@ -2224,6 +2325,8 @@
 
             function clearWorkshop() {
                 localStorage.removeItem(workshopKey);
+                selectedDreamIndex = null;
+                isWorkshopSaved = false;
                 renderWorkshopData();
                 resetAiCoachAdvice();
                 if (photoPreview && photoPlaceholder && photoName) {
@@ -2260,6 +2363,34 @@
                 target.addEventListener("click", function () {
                     setNav(false);
                 });
+            });
+
+            dreamSelectCells.forEach(function (cell) {
+                cell.addEventListener("click", function (event) {
+                    if (event.target && event.target.matches("textarea")) {
+                        return;
+                    }
+                    setSelectedDream(Number(cell.getAttribute("data-select-dream")));
+                });
+            });
+
+            dreamInputs.forEach(function (input) {
+                input.addEventListener("focus", function () {
+                    var cell = input.closest("[data-select-dream]");
+                    if (cell) {
+                        setSelectedDream(Number(cell.getAttribute("data-select-dream")));
+                    }
+                });
+                input.addEventListener("input", function () {
+                    if (selectedDreamIndex === Number(input.getAttribute("data-dream-cell"))) {
+                        document.getElementById("chosenDream").value = input.value.trim();
+                    }
+                    markWorkshopDirty();
+                });
+            });
+
+            workshopFields.forEach(function (field) {
+                field.addEventListener("input", markWorkshopDirty);
             });
 
             document.addEventListener("keydown", function (event) {
@@ -2339,14 +2470,9 @@
                 });
             }
 
-            if (logoutButton) {
-                logoutButton.addEventListener("click", function () {
-                    localStorage.removeItem(sessionKey);
-                    renderSession();
-                    document.getElementById("workspace").scrollIntoView({ behavior: "smooth", block: "start" });
-                    setMessage("你已登出。", "ok");
-                });
-            }
+            logoutButtons.forEach(function (button) {
+                button.addEventListener("click", logout);
+            });
 
             if (saveWorkshopButton) {
                 saveWorkshopButton.addEventListener("click", function () {
@@ -2365,6 +2491,9 @@
             if (toggleAdvancedButton) {
                 toggleAdvancedButton.addEventListener("click", function () {
                     var isOpen = toggleAdvancedButton.getAttribute("aria-expanded") === "true";
+                    if (!isOpen && !requireAdvancedUnlockReady()) {
+                        return;
+                    }
                     setAdvancedOpen(!isOpen);
                 });
             }
