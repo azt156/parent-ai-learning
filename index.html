@@ -2073,15 +2073,21 @@
                 });
             }
 
+            function areActionFieldsComplete() {
+                return Array.prototype.every.call(actionInputs, function (input) {
+                    return input.value.trim().length > 0;
+                });
+            }
+
             function markWorkshopDirty() {
                 isWorkshopSaved = false;
             }
 
             function requireAdvancedUnlockReady() {
-                if (isNineGridComplete() && selectedDreamIndex !== null && areReflectionFieldsComplete() && isWorkshopSaved) {
+                if (isNineGridComplete() && selectedDreamIndex !== null && areReflectionFieldsComplete() && areActionFieldsComplete() && isWorkshopSaved) {
                     return true;
                 }
-                setWorkshopMessage("請先完成初階任務：填完中央暫定夢想與周圍 8 格、點選最重要的一格、填好 What / Why / How，並按「保存本次共學紀錄」後，才能解鎖 81 格挑戰。", "error");
+                setWorkshopMessage("請先完成初階任務：填完中央暫定夢想與周圍 8 格、點選最重要的一格、填好 What / Why / How、寫完三件可以做的事，並按「保存本次共學紀錄」後，才能解鎖 81 格挑戰。", "error");
                 document.querySelector(".dream-grid").scrollIntoView({ behavior: "smooth", block: "center" });
                 return false;
             }
@@ -2473,6 +2479,14 @@
 
             workshopFields.forEach(function (field) {
                 field.addEventListener("input", markWorkshopDirty);
+            });
+
+            actionInputs.forEach(function (input) {
+                input.addEventListener("input", markWorkshopDirty);
+            });
+
+            actionChecks.forEach(function (check) {
+                check.addEventListener("change", markWorkshopDirty);
             });
 
             document.addEventListener("keydown", function (event) {
