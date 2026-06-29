@@ -1,0 +1,1970 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI 未來探索平台｜親子共學推廣頁</title>
+    <meta name="description" content="AI 未來探索平台親子共學推廣頁。協助家長成為孩子的引導者，從興趣開始找到夢想方向。">
+    <style>
+        :root {
+            --feds-primary: #1E6F5C;
+            --feds-background: #FAF9F6;
+            --feds-surface: #FFFFFF;
+            --feds-secondary: #DDEEE7;
+            --feds-highlight: #F4B860;
+            --feds-ai: #8B7CF6;
+            --feds-text: #1F2937;
+            --feds-muted: #6B7280;
+            --feds-border: #E5E7EB;
+            --feds-tech: #0B1220;
+            --feds-shadow: 0 28px 80px rgba(11, 18, 32, .12);
+            --feds-soft-shadow: 0 18px 48px rgba(11, 18, 32, .09);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--feds-text);
+            background:
+                radial-gradient(circle at top right, rgba(139, 124, 246, .14), transparent 30%),
+                radial-gradient(circle at top left, rgba(30, 111, 92, .16), transparent 34%),
+                linear-gradient(180deg, #fff 0%, var(--feds-background) 42%, #f7f3eb 100%);
+            font-family: "Inter", "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 17px;
+            line-height: 1.65;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        .page {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 24px 32px 32px 104px;
+        }
+
+        .nav-toggle {
+            position: fixed;
+            top: 28px;
+            left: 24px;
+            z-index: 50;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            color: var(--feds-text);
+            background: rgba(255, 255, 255, .86);
+            border: 1px solid rgba(229, 231, 235, .86);
+            border-radius: 18px;
+            box-shadow: 0 18px 46px rgba(11, 18, 32, .12);
+            backdrop-filter: blur(16px);
+            cursor: pointer;
+            font-size: 24px;
+            transition: transform 200ms ease-out, background-color 200ms ease-out, box-shadow 200ms ease-out;
+        }
+
+        .nav-toggle:hover {
+            background: #fff;
+            box-shadow: 0 24px 58px rgba(11, 18, 32, .16);
+            transform: translateY(-2px);
+        }
+
+        .nav-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 35;
+            visibility: hidden;
+            background: rgba(11, 18, 32, .32);
+            opacity: 0;
+            backdrop-filter: blur(4px);
+            transition: opacity 200ms ease-out, visibility 200ms ease-out;
+        }
+
+        body.is-nav-open .nav-overlay {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 45;
+            width: 320px;
+            height: calc(100vh - 48px);
+            padding: 28px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, .82);
+            border: 1px solid rgba(229, 231, 235, .82);
+            border-radius: 32px;
+            box-shadow: var(--feds-soft-shadow);
+            backdrop-filter: blur(18px);
+            transform: translateX(calc(-100% - 36px));
+            transition: transform 260ms ease-out, box-shadow 260ms ease-out;
+        }
+
+        body.is-nav-open .sidebar {
+            box-shadow: 0 30px 90px rgba(11, 18, 32, .22);
+            transform: translateX(0);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            min-height: 68px;
+            padding: 8px 0 28px;
+            margin-bottom: 0;
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            backdrop-filter: none;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 220px;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 46px;
+            height: 46px;
+            place-items: center;
+            color: #fff;
+            background: linear-gradient(145deg, var(--feds-primary), #2f8b73);
+            border-radius: 17px;
+            font-weight: 900;
+        }
+
+        .brand-title {
+            display: block;
+            font-size: 17px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            display: block;
+            color: var(--feds-muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .nav a {
+            padding: 9px 12px;
+            color: var(--feds-muted);
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .nav a:hover {
+            color: var(--feds-primary);
+            background: var(--feds-secondary);
+        }
+
+        .auth-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            justify-content: flex-end;
+            min-width: 220px;
+        }
+
+        .page-title {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1.22;
+        }
+
+        .page-subtitle {
+            margin: 2px 0 0;
+            color: var(--feds-muted);
+            font-size: 17px;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 42px;
+            padding: 9px 15px;
+            color: var(--feds-text);
+            background: rgba(255, 255, 255, .76);
+            border: 1px solid var(--feds-border);
+            border-radius: 999px;
+            box-shadow: 0 10px 28px rgba(31, 41, 55, .05);
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .pill.ai {
+            color: #6b5bd6;
+            background: rgba(139, 124, 246, .12);
+            border-color: rgba(139, 124, 246, .18);
+        }
+
+        .sidebar .brand {
+            width: 100%;
+            min-width: 0;
+            padding-bottom: 24px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--feds-border);
+        }
+
+        .nav-group {
+            margin-bottom: 24px;
+        }
+
+        .nav-label {
+            margin: 0 0 10px;
+            color: var(--feds-muted);
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .drawer-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 54px;
+            padding: 13px 14px;
+            margin-bottom: 8px;
+            color: var(--feds-text);
+            border-radius: 16px;
+            font-size: 19px;
+            font-weight: 900;
+            transition: background-color 200ms ease-out, transform 200ms ease-out, color 200ms ease-out;
+        }
+
+        .drawer-link:hover,
+        .drawer-link.is-active {
+            color: var(--feds-primary);
+            background: var(--feds-secondary);
+            transform: translateX(2px);
+        }
+
+        .drawer-icon {
+            display: grid;
+            width: 34px;
+            height: 34px;
+            place-items: center;
+            background: rgba(255, 255, 255, .65);
+            border-radius: 12px;
+            font-size: 20px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 46px;
+            padding: 12px 18px;
+            color: #fff;
+            background: var(--feds-primary);
+            border: 0;
+            border-radius: 16px;
+            box-shadow: 0 16px 34px rgba(30, 111, 92, .22);
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: transform 200ms ease-out, box-shadow 200ms ease-out, background-color 200ms ease-out;
+        }
+
+        .button:hover {
+            background: #185b4b;
+            box-shadow: 0 20px 44px rgba(30, 111, 92, .28);
+            transform: translateY(-2px);
+        }
+
+        .button:active {
+            transform: scale(.98);
+            transition-duration: 100ms;
+        }
+
+        .button.secondary {
+            color: var(--feds-primary);
+            background: var(--feds-secondary);
+            box-shadow: none;
+        }
+
+        .button.ai {
+            background: var(--feds-ai);
+            box-shadow: 0 16px 34px rgba(139, 124, 246, .22);
+        }
+
+        .button.ghost {
+            color: var(--feds-text);
+            background: rgba(255, 255, 255, .82);
+            border: 1px solid var(--feds-border);
+            box-shadow: none;
+        }
+
+        .hero {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(0, 1.04fr) minmax(360px, .96fr);
+            min-height: 620px;
+            overflow: hidden;
+            background: var(--feds-surface);
+            border: 1px solid rgba(139, 124, 246, .18);
+            border-radius: 36px;
+            box-shadow: var(--feds-shadow);
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 2;
+            padding: 58px;
+        }
+
+        .kicker {
+            margin: 0 0 14px;
+            color: var(--feds-primary);
+            font-size: 17px;
+            font-weight: 900;
+        }
+
+        .hero-title {
+            max-width: 720px;
+            margin: 0;
+            font-size: clamp(42px, 5.4vw, 72px);
+            font-weight: 900;
+            line-height: 1.12;
+        }
+
+        .hero-text {
+            max-width: 660px;
+            margin: 24px 0 0;
+            color: #536070;
+            font-size: 21px;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .hero-photo {
+            position: relative;
+            min-height: 620px;
+            overflow: hidden;
+        }
+
+        .hero-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-photo::after {
+            position: absolute;
+            inset: 0;
+            content: "";
+            background:
+                linear-gradient(90deg, rgba(255, 255, 255, .88), rgba(255, 255, 255, .08)),
+                linear-gradient(0deg, rgba(250, 249, 246, .74), rgba(250, 249, 246, 0) 44%);
+        }
+
+        .hero-note {
+            position: absolute;
+            right: 28px;
+            bottom: 28px;
+            z-index: 2;
+            width: min(86%, 430px);
+            padding: 24px;
+            background: rgba(255, 255, 255, .88);
+            border: 1px solid rgba(229, 231, 235, .82);
+            border-radius: 28px;
+            box-shadow: var(--feds-soft-shadow);
+            backdrop-filter: blur(18px);
+        }
+
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 26px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            min-height: 38px;
+            padding: 7px 14px;
+            color: var(--feds-primary);
+            background: var(--feds-secondary);
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        .section {
+            margin-top: 28px;
+        }
+
+        .metric-grid,
+        .three-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .metric-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            margin-top: -78px;
+            padding: 0 32px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, .92);
+            border: 1px solid rgba(139, 124, 246, .12);
+            border-radius: 24px;
+            box-shadow: var(--feds-soft-shadow);
+            backdrop-filter: blur(16px);
+            transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+        }
+
+        .card:hover {
+            box-shadow: 0 22px 54px rgba(31, 41, 55, .1);
+            transform: translateY(-3px);
+        }
+
+        .metric {
+            min-height: 132px;
+            padding: 24px;
+        }
+
+        .metric-label {
+            margin: 0;
+            color: var(--feds-text);
+            font-size: 17px;
+            font-weight: 900;
+        }
+
+        .metric-value {
+            margin: 8px 0 0;
+            font-size: 34px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .caption,
+        .metric-caption {
+            color: var(--feds-muted);
+            font-size: 15px;
+        }
+
+        .panel {
+            padding: 36px;
+        }
+
+        .panel-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .panel-title {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 900;
+            line-height: 1.28;
+        }
+
+        .panel-subtitle {
+            margin: 6px 0 0;
+            color: var(--feds-muted);
+            font-size: 17px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            min-height: 30px;
+            padding: 5px 12px;
+            color: var(--feds-primary);
+            background: var(--feds-secondary);
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .status.ai {
+            color: #6b5bd6;
+            background: rgba(139, 124, 246, .14);
+        }
+
+        .flow {
+            display: grid;
+            gap: 16px;
+        }
+
+        .flow-item {
+            display: grid;
+            grid-template-columns: 58px minmax(0, 1fr);
+            gap: 18px;
+            padding: 22px;
+            background: rgba(250, 249, 246, .78);
+            border: 1px solid var(--feds-border);
+            border-radius: 22px;
+        }
+
+        .flow-index {
+            display: grid;
+            width: 48px;
+            height: 48px;
+            color: var(--feds-primary);
+            place-items: center;
+            background: var(--feds-secondary);
+            border-radius: 16px;
+            font-weight: 900;
+        }
+
+        .flow-title {
+            margin: 0;
+            font-size: 23px;
+            font-weight: 900;
+        }
+
+        .flow-text {
+            margin: 7px 0 0;
+            color: var(--feds-muted);
+            font-size: 17px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+            gap: 24px;
+        }
+
+        .soft-strip {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            padding: 24px;
+            overflow: hidden;
+            background: linear-gradient(120deg, rgba(139, 124, 246, .12), rgba(221, 238, 231, .78));
+            border: 1px solid rgba(229, 231, 235, .78);
+            border-radius: 28px;
+        }
+
+        .icon-tile {
+            display: grid;
+            width: 54px;
+            height: 54px;
+            flex: 0 0 auto;
+            place-items: center;
+            color: var(--feds-primary);
+            background: var(--feds-secondary);
+            border-radius: 18px;
+            font-weight: 900;
+        }
+
+        .dream-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            max-width: 430px;
+            margin: 0 auto;
+        }
+
+        .dream-cell {
+            display: grid;
+            min-height: 92px;
+            padding: 12px;
+            place-items: center;
+            text-align: center;
+            background: #fff;
+            border: 1px solid var(--feds-border);
+            border-radius: 18px;
+            color: var(--feds-muted);
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .dream-cell.center {
+            color: #fff;
+            background: linear-gradient(145deg, var(--feds-primary), #2f8b73);
+            border-color: transparent;
+            font-size: 20px;
+        }
+
+        .dream-input {
+            width: 100%;
+            min-height: 70px;
+            padding: 10px;
+            color: var(--feds-text);
+            background: rgba(255, 255, 255, .9);
+            border: 1px solid var(--feds-border);
+            border-radius: 14px;
+            outline: 0;
+            text-align: center;
+            font-weight: 800;
+            resize: vertical;
+        }
+
+        .dream-input:focus,
+        .reflection-input:focus,
+        .action-input:focus {
+            border-color: rgba(30, 111, 92, .42);
+            box-shadow: 0 0 0 4px rgba(30, 111, 92, .10);
+        }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .reflection-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .reflection-card {
+            padding: 18px;
+            background: rgba(250, 249, 246, .78);
+            border: 1px solid var(--feds-border);
+            border-radius: 22px;
+        }
+
+        .reflection-card h3 {
+            margin: 0 0 10px;
+            font-size: 19px;
+            font-weight: 900;
+        }
+
+        .reflection-input,
+        .action-input {
+            width: 100%;
+            min-height: 116px;
+            padding: 14px;
+            color: var(--feds-text);
+            background: #fff;
+            border: 1px solid var(--feds-border);
+            border-radius: 18px;
+            outline: 0;
+            resize: vertical;
+        }
+
+        .action-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .action-row {
+            display: grid;
+            grid-template-columns: 34px minmax(0, 1fr);
+            gap: 10px;
+            align-items: start;
+        }
+
+        .action-row input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            margin-top: 14px;
+            accent-color: var(--feds-primary);
+        }
+
+        .upload-box {
+            display: grid;
+            gap: 16px;
+            padding: 24px;
+            color: #fff;
+            background:
+                linear-gradient(135deg, rgba(11, 18, 32, .94), rgba(31, 41, 55, .9)),
+                radial-gradient(circle at top right, rgba(139, 124, 246, .35), transparent 34%);
+            border: 1px solid rgba(139, 124, 246, .28);
+            border-radius: 28px;
+            overflow: hidden;
+        }
+
+        .upload-box p,
+        .upload-box .caption {
+            color: rgba(255, 255, 255, .78);
+        }
+
+        .file-input {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+        }
+
+        .photo-preview {
+            display: grid;
+            min-height: 240px;
+            place-items: center;
+            overflow: hidden;
+            color: var(--feds-muted);
+            background: rgba(250, 249, 246, .82);
+            border: 1px dashed rgba(139, 124, 246, .38);
+            border-radius: 26px;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .photo-preview img {
+            display: none;
+            width: 100%;
+            height: 100%;
+            max-height: 360px;
+            object-fit: cover;
+        }
+
+        .save-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .list {
+            display: grid;
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .list li {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--feds-border);
+        }
+
+        .list li:last-child {
+            border-bottom: 0;
+        }
+
+        .auth-panel {
+            display: grid;
+            grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr);
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .tabs {
+            display: inline-flex;
+            gap: 8px;
+            padding: 6px;
+            background: rgba(221, 238, 231, .72);
+            border-radius: 18px;
+        }
+
+        .tab {
+            min-height: 42px;
+            padding: 8px 16px;
+            color: var(--feds-muted);
+            background: transparent;
+            border: 0;
+            border-radius: 14px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            color: var(--feds-primary);
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(31, 41, 55, .06);
+        }
+
+        .form {
+            display: grid;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .input {
+            width: 100%;
+            min-height: 54px;
+            padding: 14px 16px;
+            color: var(--feds-text);
+            background: #fff;
+            border: 1px solid var(--feds-border);
+            border-radius: 18px;
+            outline: 0;
+        }
+
+        .input:focus {
+            border-color: rgba(30, 111, 92, .42);
+            box-shadow: 0 0 0 4px rgba(30, 111, 92, .10);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .message {
+            padding: 14px 16px;
+            border-radius: 18px;
+            font-weight: 800;
+        }
+
+        .message.ok {
+            color: var(--feds-primary);
+            background: var(--feds-secondary);
+        }
+
+        .message.error {
+            color: #9f1239;
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+        }
+
+        .dashboard-card {
+            color: #fff;
+            background:
+                radial-gradient(circle at 84% 16%, rgba(139, 124, 246, .34), transparent 28%),
+                linear-gradient(135deg, #0B1220, #123c35 58%, #1E6F5C);
+            border-radius: 30px;
+            box-shadow: var(--feds-shadow);
+        }
+
+        .dashboard-card .caption,
+        .dashboard-card .panel-subtitle {
+            color: rgba(255, 255, 255, .76);
+        }
+
+        .dashboard-card .status {
+            color: #fff;
+            background: rgba(255, 255, 255, .16);
+        }
+
+        .member-only {
+            display: none;
+        }
+
+        body.has-session .member-only {
+            display: block;
+        }
+
+        body.has-session .guest-only {
+            display: none !important;
+        }
+
+        .locked-course {
+            position: relative;
+            overflow: hidden;
+            min-height: 360px;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, .94), rgba(250, 249, 246, .86)),
+                radial-gradient(circle at top right, rgba(139, 124, 246, .16), transparent 34%);
+        }
+
+        .locked-course::after {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 46%;
+            height: 70%;
+            content: "";
+            background: linear-gradient(135deg, rgba(30, 111, 92, .1), rgba(139, 124, 246, .12));
+            border-top-left-radius: 160px;
+        }
+
+        .locked-content {
+            position: relative;
+            z-index: 2;
+            max-width: 760px;
+        }
+
+        .course-summary {
+            max-width: 860px;
+        }
+
+        .video-card {
+            display: grid;
+            grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr);
+            gap: 24px;
+            align-items: center;
+            padding: 24px;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, rgba(221, 238, 231, .72), rgba(255, 255, 255, .9));
+            border: 1px solid rgba(229, 231, 235, .86);
+            border-radius: 28px;
+        }
+
+        .video-frame {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            background: #0B1220;
+            border-radius: 24px;
+            box-shadow: 0 18px 48px rgba(11, 18, 32, .14);
+        }
+
+        .video-frame iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .floating-chat {
+            position: fixed;
+            right: 28px;
+            bottom: 28px;
+            z-index: 20;
+            display: grid;
+            width: 64px;
+            height: 64px;
+            color: #fff;
+            place-items: center;
+            background: linear-gradient(145deg, var(--feds-ai), #7461ee);
+            border-radius: 50%;
+            box-shadow: 0 22px 42px rgba(139, 124, 246, .32);
+            font-size: 26px;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            left: 16px;
+            z-index: 30;
+            display: none;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 8px;
+            padding: 10px;
+            background: rgba(255, 255, 255, .9);
+            border: 1px solid rgba(229, 231, 235, .86);
+            border-radius: 24px;
+            box-shadow: 0 22px 56px rgba(11, 18, 32, .16);
+            backdrop-filter: blur(18px);
+        }
+
+        .mobile-nav a {
+            display: grid;
+            min-height: 56px;
+            color: var(--feds-muted);
+            place-items: center;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .mobile-nav a.is-active {
+            color: var(--feds-primary);
+            background: var(--feds-secondary);
+        }
+
+        .mobile-nav span {
+            display: block;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .footer {
+            margin: 36px 0 12px;
+            color: var(--feds-muted);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 980px) {
+            .page {
+                padding: 96px 20px 24px;
+            }
+
+            .sidebar {
+                top: 16px;
+                left: 16px;
+                width: min(340px, calc(100vw - 32px));
+                height: calc(100vh - 32px);
+            }
+
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .auth-actions {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .auth-actions {
+                justify-content: flex-start;
+            }
+
+            .nav {
+                justify-content: flex-start;
+            }
+
+            .hero,
+            .grid-2,
+            .auth-panel,
+            .workspace-grid,
+            .video-card {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-photo {
+                min-height: 420px;
+            }
+
+            .metric-grid,
+            .three-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .metric-grid {
+                margin-top: 24px;
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page {
+                padding: 88px 16px 112px;
+            }
+
+            .nav-toggle {
+                top: 16px;
+                left: 16px;
+            }
+
+            .hero-copy,
+            .panel {
+                padding: 26px;
+            }
+
+            .hero-title {
+                font-size: 38px;
+            }
+
+            .hero-text {
+                font-size: 18px;
+            }
+
+            .metric-grid,
+            .three-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-item,
+            .soft-strip,
+            .reflection-grid {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+            }
+
+            .dream-cell {
+                min-height: 76px;
+                font-size: 13px;
+            }
+
+            .dream-input {
+                min-height: 58px;
+                font-size: 14px;
+            }
+
+            .floating-chat {
+                width: 56px;
+                height: 56px;
+                right: 18px;
+                bottom: 96px;
+            }
+
+            .mobile-nav {
+                display: grid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="nav-toggle" type="button" aria-label="開啟導覽列" aria-controls="siteSidebar" aria-expanded="false" data-nav-toggle>☰</button>
+    <div class="nav-overlay" data-nav-close></div>
+
+    <aside class="sidebar" id="siteSidebar" aria-label="AI 未來探索平台導覽">
+        <a class="brand" href="#top">
+            <span class="brand-mark">AI</span>
+            <span>
+                <span class="brand-title">AI 未來探索平台</span>
+                <span class="brand-subtitle">Parent Learning Demo</span>
+            </span>
+        </a>
+
+        <nav class="nav-group" aria-label="親子共學">
+            <p class="nav-label">親子共學</p>
+            <a class="drawer-link is-active" href="#top"><span class="drawer-icon">⌂</span>推廣首頁</a>
+            <a class="drawer-link" href="#parent"><span class="drawer-icon">🤍</span>家長引導</a>
+            <a class="drawer-link" href="#course"><span class="drawer-icon">🧭</span>課程設計</a>
+            <a class="drawer-link" href="#workspace"><span class="drawer-icon">✎</span>會員課程</a>
+        </nav>
+
+        <nav class="nav-group" aria-label="帳號與跨域">
+            <p class="nav-label">帳號與跨域</p>
+            <a class="drawer-link" href="#auth"><span class="drawer-icon">🔐</span>登入註冊</a>
+            <a class="drawer-link" href="#adult"><span class="drawer-icon">✦</span>成人跨域</a>
+        </nav>
+    </aside>
+
+    <div class="page">
+        <header class="topbar">
+            <div>
+                <h1 class="page-title">親子共學推廣頁</h1>
+                <p class="page-subtitle">用 AI 未來探索平台的方式，陪孩子從興趣線索走向夢想方向。</p>
+            </div>
+
+            <div class="auth-actions">
+                <span class="pill ai">✦ AI 助手</span>
+                <span class="pill">🧭 課程設計</span>
+                <a class="pill" href="#workspace">✎ 會員課程</a>
+                <button class="pill" type="button" data-scroll-auth data-auth-tab="login">登入</button>
+                <button class="pill" type="button" data-scroll-auth data-auth-tab="register">註冊</button>
+            </div>
+        </header>
+
+        <main id="top">
+            <section class="hero">
+                <div class="hero-copy">
+                    <p class="kicker">親子共學第一課｜從興趣開始找到夢想方向</p>
+                    <h1 class="hero-title">孩子不是找不到夢想，而是還沒找到讓他感興趣的事</h1>
+                    <p class="hero-text">這是一個給家長的示範推廣頁。家長會學習像老師一樣提問、等待、陪伴與引導，先從孩子有感覺、有好奇、有興趣的線索開始，再慢慢走向夢想。</p>
+                    <div class="chip-row" aria-label="課程特色">
+                        <span class="chip">家長 + 孩子</span>
+                        <span class="chip">60 分鐘</span>
+                        <span class="chip">紙筆即可</span>
+                        <span class="chip">AI 選用輔助</span>
+                    </div>
+                    <div class="hero-actions">
+                        <a class="button" href="#course">看課程設計</a>
+                        <button class="button ai" type="button" data-scroll-auth data-auth-tab="register">建立示範帳號</button>
+                    </div>
+                </div>
+                <div class="hero-photo">
+                    <img src="assets/ai-hero-parent.png" alt="AI 產生的亞洲家長陪伴孩子閱讀與互動">
+                    <div class="hero-note">
+                        <p class="kicker">本頁重點</p>
+                        <strong>夢想不是被逼出來的，是從興趣長出來的。</strong>
+                        <p class="caption">家長不需要先懂 AI，也可以先學會提問、傾聽與引導，陪孩子發現自己在意什麼。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="metric-grid" aria-label="推廣頁重點">
+                <article class="card metric">
+                    <p class="metric-label">第一對象</p>
+                    <p class="metric-value">家長</p>
+                    <p class="metric-caption">親子共學與引導</p>
+                </article>
+                <article class="card metric">
+                    <p class="metric-label">第一堂課</p>
+                    <p class="metric-value">興趣</p>
+                    <p class="metric-caption">先找到有感覺的事</p>
+                </article>
+                <article class="card metric">
+                    <p class="metric-label">第二對象</p>
+                    <p class="metric-value">大人</p>
+                    <p class="metric-caption">跨域能力願景</p>
+                </article>
+                <article class="card metric">
+                    <p class="metric-label">登入註冊</p>
+                    <p class="metric-value">Demo</p>
+                    <p class="metric-caption">GitHub Pages 可用</p>
+                </article>
+            </section>
+
+            <section class="section grid-2" id="parent">
+                <article class="card panel">
+                    <div class="panel-head">
+                        <div>
+                            <p class="kicker">Parent as Teacher</p>
+                            <h2 class="panel-title">家長不是旁觀者，而是孩子的第一位探索教練</h2>
+                            <p class="panel-subtitle">我們推廣給家長的不是「又一堂孩子的課」，而是一套親子共學方法：家長學會引導，孩子學會從興趣線索裡說出自己在意的事。</p>
+                        </div>
+                        <span class="status">親子共學</span>
+                    </div>
+                    <div class="flow">
+                        <div class="flow-item">
+                            <span class="flow-index">01</span>
+                            <div>
+                                <h3 class="flow-title">家長先學會不急著給答案</h3>
+                                <p class="flow-text">孩子說出任何聯想時，家長先接住，不評論、不否定，讓孩子願意繼續說。</p>
+                            </div>
+                        </div>
+                        <div class="flow-item">
+                            <span class="flow-index">02</span>
+                            <div>
+                                <h3 class="flow-title">用問題帶孩子找到興趣線索</h3>
+                                <p class="flow-text">家長只需要問 What、Why、How，孩子會慢慢從喜歡、好奇、願意多做一下的事情裡看見方向。</p>
+                            </div>
+                        </div>
+                        <div class="flow-item">
+                            <span class="flow-index">03</span>
+                            <div>
+                                <h3 class="flow-title">把興趣變成一個小行動</h3>
+                                <p class="flow-text">不用一次找到人生志向，先找出本週可以做的一件小事，讓孩子用行動確認自己是不是真的有興趣。</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card panel">
+                    <div class="panel-head">
+                        <div>
+                            <p class="kicker">Demo Login</p>
+                            <h2 class="panel-title">登入後可以保存自己的親子共學紀錄</h2>
+                            <p class="panel-subtitle">帳號會寫入你的 Google Sheet；登入狀態與課程操作暫存在使用者瀏覽器。</p>
+                        </div>
+                    </div>
+                    <div class="soft-strip">
+                        <span class="icon-tile">AI</span>
+                        <p style="margin:0;"><strong>Google Sheet 註冊資料庫：</strong><br><span class="caption">註冊資料寫入你的雲端 Google Sheet，密碼由 Apps Script 加鹽雜湊後保存。</span></p>
+                    </div>
+                    <div id="userSummary" class="card panel dashboard-card hidden" style="margin-top:20px;">
+                        <span class="status">已登入</span>
+                        <h3 class="panel-title" style="margin-top:16px;">歡迎回來，<span data-user-name></span></h3>
+                        <p class="panel-subtitle">下一步：和孩子完成「夢想九宮格」，先找到一件讓他有興趣的小事，再記下本週可以做的行動。</p>
+                        <button class="button ghost" type="button" data-logout style="margin-top:20px;">登出</button>
+                    </div>
+                </article>
+            </section>
+
+            <section class="section card panel" id="course">
+                <div class="panel-head">
+                    <div class="course-summary">
+                        <p class="kicker">Course Design</p>
+                        <h2 class="panel-title">如何從興趣找到夢想？親子共學・夢想九宮格</h2>
+                        <p class="panel-subtitle">課程時長約 60 分鐘。核心不是逼孩子說出夢想，而是陪孩子找出「我好像有興趣」的線索。AI 是選用輔助，主角永遠是孩子自己的想法。</p>
+                    </div>
+                    <span class="status ai">公開預覽</span>
+                </div>
+                <div class="soft-strip">
+                    <span class="icon-tile">🔐</span>
+                    <p style="margin:0;"><strong>完整課程實作需登入後使用。</strong><br><span class="caption">公開頁只呈現課程設計方向，避免付費課程內容在外層直接被操作或完整取得。</span></p>
+                </div>
+                <div class="save-row">
+                    <button class="button ai" type="button" data-scroll-auth data-auth-tab="register">註冊後進入課程</button>
+                    <button class="button secondary" type="button" data-scroll-auth data-auth-tab="login">我已有帳號</button>
+                </div>
+            </section>
+
+            <section class="section" id="workspace">
+                <article class="card panel locked-course guest-only">
+                    <div class="locked-content">
+                        <p class="kicker">Member Course</p>
+                        <h2 class="panel-title">註冊或登入後，才會開啟夢想九宮格實作課程</h2>
+                        <p class="panel-subtitle">這裡是付費課程示範區。外層只保留課程設計摘要，真正的九宮格、親子提問、行動清單、拍照上傳與保存功能會在登入後顯示。</p>
+                        <div class="save-row">
+                            <button class="button ai" type="button" data-scroll-auth data-auth-tab="register">建立帳號進入課程</button>
+                            <button class="button secondary" type="button" data-scroll-auth data-auth-tab="login">登入會員課程</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card panel member-only" id="memberCourse">
+                    <div class="panel-head">
+                        <div>
+                            <p class="kicker">Interactive Workshop</p>
+                            <h2 class="panel-title">會員課程：線上完成夢想九宮格</h2>
+                            <p class="panel-subtitle">把原本需要紙、彩色筆和貼牆的活動，轉成網頁裡可以填寫、拍照、保存的親子共學工具。九宮格中央請家長帶孩子填入一個暫定夢想，例如：當醫生、當作家、做遊戲、開咖啡店。</p>
+                        </div>
+                        <span class="status ai">登入後開放</span>
+                    </div>
+
+                    <div class="video-card">
+                        <div>
+                            <span class="status">課前共看</span>
+                            <h3 class="panel-title" style="font-size:26px;margin-top:16px;">先和孩子一起看一段關於夢想的影片</h3>
+                            <p class="panel-subtitle">請家長先陪孩子看完影片，再問：「你剛剛聽到哪一句最有感覺？」不用急著得到標準答案，先讓孩子說出自己的感受。</p>
+                        </div>
+                        <div class="video-frame">
+                            <iframe src="https://www.youtube-nocookie.com/embed/taEBnNNRhO0" title="關於夢想的課前共看影片" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <div class="grid-2" style="margin-bottom:24px;">
+                        <div class="flow">
+                            <div class="flow-item">
+                                <span class="flow-index">暖身</span>
+                                <div>
+                                    <h3 class="flow-title">先聊一聊，5 分鐘</h3>
+                                    <p class="flow-text">問題：「如果明天不用上學、不用上班，你最想做什麼？」家長和孩子都回答，先讓彼此熱身。</p>
+                                </div>
+                            </div>
+                            <div class="flow-item">
+                                <span class="flow-index">一</span>
+                                <div>
+                                    <h3 class="flow-title">擴散聯想，20 分鐘</h3>
+                                    <p class="flow-text">在九宮格中央寫下暫定夢想，問孩子：「如果往這個方向走，你會想到什麼？」把蹦出來的詞填進周圍八格。</p>
+                                </div>
+                            </div>
+                            <div class="flow-item">
+                                <span class="flow-index">二</span>
+                                <div>
+                                    <h3 class="flow-title">聚斂聯想，20 分鐘</h3>
+                                    <p class="flow-text">圈出最有感覺的 1 到 2 格，再問：這是什麼？為什麼你會在意？可以怎麼試試看？</p>
+                                </div>
+                            </div>
+                            <div class="flow-item">
+                                <span class="flow-index">三</span>
+                                <div>
+                                    <h3 class="flow-title">變成行動，10 分鐘</h3>
+                                    <p class="flow-text">選出最想試試看的那一格，一起寫下三件現在就能做的小事。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="soft-strip">
+                            <span class="icon-tile">?</span>
+                            <p style="margin:0;"><strong>家長陪伴提醒：</strong><br><span class="caption">夢想中間格不是系統替孩子決定，而是家長陪孩子先填一個暫定方向。什麼答案都可以，先讓孩子願意說，再慢慢修正。</span></p>
+                        </div>
+                    </div>
+
+                    <div class="workspace-grid">
+                    <article>
+                        <div class="dream-grid" aria-label="可編輯夢想九宮格">
+                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="0" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="1" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="2" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="3" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell center"><textarea class="dream-input" data-workshop-field="coreDream" placeholder="暫定夢想&#10;例：當醫生"></textarea></div>
+                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="4" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="5" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="6" placeholder="想到什麼？"></textarea></div>
+                            <div class="dream-cell"><textarea class="dream-input" data-dream-cell="7" placeholder="想到什麼？"></textarea></div>
+                        </div>
+
+                        <div class="save-row">
+                            <button class="button" type="button" data-save-workshop>保存本次共學紀錄</button>
+                            <button class="button secondary" type="button" data-load-sample>載入範例</button>
+                            <button class="button ghost" type="button" data-clear-workshop>清空</button>
+                        </div>
+                        <div id="workshopMessage" class="message hidden" style="margin-top:16px;" role="status"></div>
+                    </article>
+
+                    <article class="card panel" style="box-shadow:none;">
+                        <div class="panel-head">
+                            <div>
+                                <h3 class="panel-title" style="font-size:24px;">圈出最重要的一格</h3>
+                                <p class="panel-subtitle">選一個孩子最有感覺的詞，再用 What / Why / How 陪他整理。</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="chosenDream">孩子圈出的格子</label>
+                            <input class="input" id="chosenDream" type="text" data-workshop-field="chosenDream" placeholder="例：畫畫、科學實驗、幫助別人">
+                        </div>
+                        <div class="reflection-grid" style="margin-top:16px;">
+                            <div class="reflection-card">
+                                <h3>What</h3>
+                                <textarea class="reflection-input" data-workshop-field="what" placeholder="這一格對你來說是什麼？"></textarea>
+                            </div>
+                            <div class="reflection-card">
+                                <h3>Why</h3>
+                                <textarea class="reflection-input" data-workshop-field="why" placeholder="為什麼你會在意這一格？"></textarea>
+                            </div>
+                            <div class="reflection-card">
+                                <h3>How</h3>
+                                <textarea class="reflection-input" data-workshop-field="how" placeholder="可以怎麼試試看？"></textarea>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="workspace-grid" style="margin-top:24px;">
+                    <article class="card panel" style="box-shadow:none;">
+                        <div class="panel-head">
+                            <div>
+                                <h3 class="panel-title" style="font-size:24px;">三件現在可以做的事</h3>
+                                <p class="panel-subtitle">不用一次找到大夢想，先把興趣拆成本週能做的小行動。</p>
+                            </div>
+                            <span class="status">行動清單</span>
+                        </div>
+                        <div class="action-list">
+                            <label class="action-row">
+                                <input type="checkbox" data-action-check="0">
+                                <textarea class="action-input" data-action-input="0" placeholder="第一件小事"></textarea>
+                            </label>
+                            <label class="action-row">
+                                <input type="checkbox" data-action-check="1">
+                                <textarea class="action-input" data-action-input="1" placeholder="第二件小事"></textarea>
+                            </label>
+                            <label class="action-row">
+                                <input type="checkbox" data-action-check="2">
+                                <textarea class="action-input" data-action-input="2" placeholder="第三件小事"></textarea>
+                            </label>
+                        </div>
+                    </article>
+
+                    <article>
+                        <div class="upload-box">
+                            <div>
+                                <p class="kicker" style="color:#fff;margin-bottom:8px;">拍照上傳</p>
+                                <h3 class="panel-title" style="margin:0;font-size:26px;">保存孩子的九宮格或行動照片</h3>
+                                <p class="caption">手機可直接拍照，也可以上傳已拍好的照片。靜態版會先保存在本機瀏覽器。</p>
+                            </div>
+                            <div>
+                                <label class="button ai" for="photoUpload">拍照 / 選擇照片</label>
+                                <input class="file-input" id="photoUpload" type="file" accept="image/*" capture="environment" data-photo-upload>
+                                <p class="caption" data-photo-name style="margin:12px 0 0;">尚未選擇照片</p>
+                            </div>
+                        </div>
+                        <div class="photo-preview" style="margin-top:16px;" aria-live="polite">
+                            <img src="" alt="親子共學照片預覽" data-photo-preview>
+                            <div data-photo-placeholder>
+                                <div style="font-size:36px;margin-bottom:10px;">照片預覽</div>
+                                <div class="caption">拍下孩子的夢想九宮格、行動清單或共學過程</div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                </article>
+            </section>
+
+            <section class="section grid-2" id="adult">
+                <article class="card panel">
+                    <div class="panel-head">
+                        <div>
+                            <p class="kicker">Adult Cross-Disciplinary Vision</p>
+                            <h2 class="panel-title">第二推廣對象：想跨域的大人</h2>
+                            <p class="panel-subtitle">AI 時代需要的能力，不只是學會一個工具，而是把原本的專業延伸到新的表達方式與作品。</p>
+                        </div>
+                        <span class="status ai">概念展示</span>
+                    </div>
+                    <ul class="list">
+                        <li><span>工程師也可以成為作家，把邏輯能力轉成故事、文字與作品。</span><span class="status">工程 x 寫作</span></li>
+                        <li><span>老師也可以用 AI 設計網站，把教學理念變成可被看見的產品。</span><span class="status">教育 x 設計</span></li>
+                        <li><span>未來人才不是只會單一技能，而是能跨域整合、表達與創造。</span><span class="status">未來能力</span></li>
+                    </ul>
+                </article>
+
+                <article class="card panel">
+                    <div class="soft-strip">
+                        <span class="icon-tile">AI</span>
+                        <p style="margin:0;"><strong>這一區目前只作為網路公開概念。</strong><br><span class="caption">先不放實際課程，也不開功能。它用來讓大人理解：AI 不是取代專業，而是讓專業跨出去。</span></p>
+                    </div>
+                    <img src="assets/ai-hero-teacher.png" alt="AI 產生的亞洲老師進行跨域學習展示" style="width:100%;height:300px;object-fit:cover;border-radius:28px;margin-top:24px;">
+                </article>
+            </section>
+
+            <section class="section auth-panel" id="auth">
+                <article class="card panel dashboard-card">
+                    <span class="status">GitHub Pages Demo</span>
+                    <h2 class="panel-title" style="margin-top:18px;">登入 / 註冊使用 Google Sheet 資料庫</h2>
+                    <p class="panel-subtitle">GitHub Pages 前端會呼叫 Google Apps Script，註冊資料寫入你的 Google Sheet；密碼不以明文保存。</p>
+                    <div class="soft-strip" style="margin-top:24px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.16);">
+                        <span class="icon-tile" style="background:rgba(255,255,255,.16);color:#fff;">!</span>
+                        <p style="margin:0;"><strong>設定提醒：</strong><br><span class="caption">發布前請把程式中的 Apps Script Web App URL 換成你的部署網址，並確認 Apps Script 設為「任何人」可存取。</span></p>
+                    </div>
+                    <div class="soft-strip" style="margin-top:16px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.16);">
+                        <span class="icon-tile" style="background:rgba(255,255,255,.16);color:#fff;">DB</span>
+                        <p style="margin:0;"><strong>資料表欄位：</strong><br><span class="caption">姓名、Gmail / 電子信箱、密碼雜湊、狀態、後台備註、後台標籤。身份不在前台詢問，之後可由後台自行補註。</span></p>
+                    </div>
+                </article>
+
+                <article class="card panel">
+                    <div class="tabs" role="tablist" aria-label="登入註冊切換">
+                        <button class="tab active" type="button" data-tab="login">登入</button>
+                        <button class="tab" type="button" data-tab="register">註冊</button>
+                    </div>
+
+                    <form class="form" id="loginForm">
+                        <div class="field">
+                            <label for="loginEmail">Gmail / 電子信箱</label>
+                            <input class="input" id="loginEmail" type="email" autocomplete="email" required>
+                        </div>
+                        <div class="field">
+                            <label for="loginPassword">密碼</label>
+                            <input class="input" id="loginPassword" type="password" autocomplete="current-password" required>
+                        </div>
+                        <button class="button" type="submit">登入</button>
+                    </form>
+
+                    <form class="form hidden" id="registerForm">
+                        <div class="field">
+                            <label for="registerName">姓名</label>
+                            <input class="input" id="registerName" type="text" autocomplete="name" required>
+                        </div>
+                        <div class="field">
+                            <label for="registerEmail">Gmail / 電子信箱</label>
+                            <input class="input" id="registerEmail" type="email" autocomplete="email" required>
+                        </div>
+                        <div class="field">
+                            <label for="registerPassword">密碼</label>
+                            <input class="input" id="registerPassword" type="password" minlength="6" autocomplete="new-password" required>
+                        </div>
+                        <button class="button ai" type="submit">建立帳號</button>
+                    </form>
+
+                    <div id="authMessage" class="message hidden" style="margin-top:18px;" role="status"></div>
+                </article>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>AI 未來探索平台｜親子共學 GitHub Pages 靜態示範頁。帳號資料可寫入 Google Sheet；課程操作資料暫存在使用者自己的瀏覽器。</p>
+        </footer>
+    </div>
+
+    <a class="floating-chat" href="#workspace" aria-label="開啟會員課程">🤖</a>
+
+    <nav class="mobile-nav" aria-label="手機操作列">
+        <a class="is-active" href="#top"><span>⌂</span>總覽</a>
+        <a href="#course"><span>🧭</span>課程</a>
+        <a href="#workspace"><span>✎</span>會員</a>
+        <a href="#auth"><span>🔐</span>登入</a>
+        <a href="#adult"><span>✦</span>跨域</a>
+    </nav>
+
+    <script>
+        (function () {
+            var APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+            var sessionKey = "fep_parent_learning_session";
+            var workshopKey = "fep_parent_learning_workshop";
+            var navToggle = document.querySelector("[data-nav-toggle]");
+            var navCloseTargets = document.querySelectorAll("[data-nav-close], .drawer-link");
+            var loginForm = document.getElementById("loginForm");
+            var registerForm = document.getElementById("registerForm");
+            var message = document.getElementById("authMessage");
+            var workshopMessage = document.getElementById("workshopMessage");
+            var userSummary = document.getElementById("userSummary");
+            var userNameTargets = document.querySelectorAll("[data-user-name]");
+            var memberCourse = document.getElementById("memberCourse");
+            var tabs = document.querySelectorAll("[data-tab]");
+            var scrollAuthButtons = document.querySelectorAll("[data-scroll-auth]");
+            var logoutButton = document.querySelector("[data-logout]");
+            var dreamInputs = document.querySelectorAll("[data-dream-cell]");
+            var workshopFields = document.querySelectorAll("[data-workshop-field]");
+            var actionInputs = document.querySelectorAll("[data-action-input]");
+            var actionChecks = document.querySelectorAll("[data-action-check]");
+            var saveWorkshopButton = document.querySelector("[data-save-workshop]");
+            var loadSampleButton = document.querySelector("[data-load-sample]");
+            var clearWorkshopButton = document.querySelector("[data-clear-workshop]");
+            var photoUpload = document.querySelector("[data-photo-upload]");
+            var photoPreview = document.querySelector("[data-photo-preview]");
+            var photoPlaceholder = document.querySelector("[data-photo-placeholder]");
+            var photoName = document.querySelector("[data-photo-name]");
+
+            function setNav(open) {
+                document.body.classList.toggle("is-nav-open", open);
+                if (navToggle) {
+                    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+                    navToggle.textContent = open ? "×" : "☰";
+                    navToggle.setAttribute("aria-label", open ? "關閉導覽列" : "開啟導覽列");
+                }
+            }
+
+            function isApiConfigured() {
+                return APPS_SCRIPT_URL && APPS_SCRIPT_URL.indexOf("PASTE_YOUR") === -1;
+            }
+
+            function setMessage(text, type) {
+                message.textContent = text;
+                message.className = "message " + type;
+            }
+
+            function clearMessage() {
+                message.textContent = "";
+                message.className = "message hidden";
+            }
+
+            function setWorkshopMessage(text, type) {
+                if (!workshopMessage) {
+                    return;
+                }
+                workshopMessage.textContent = text;
+                workshopMessage.className = "message " + type;
+            }
+
+            function scrollToMemberCourse() {
+                if (memberCourse) {
+                    memberCourse.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }
+
+            function setActiveTab(tabName) {
+                tabs.forEach(function (tab) {
+                    tab.classList.toggle("active", tab.getAttribute("data-tab") === tabName);
+                });
+                loginForm.classList.toggle("hidden", tabName !== "login");
+                registerForm.classList.toggle("hidden", tabName !== "register");
+                clearMessage();
+            }
+
+            function apiRequest(action, payload) {
+                if (!isApiConfigured()) {
+                    return Promise.resolve({
+                        ok: false,
+                        message: "尚未設定 Apps Script Web App URL。請先完成 README 的 Google Sheet 設定。"
+                    });
+                }
+
+                var body = new URLSearchParams();
+                body.append("action", action);
+
+                Object.keys(payload).forEach(function (key) {
+                    body.append(key, payload[key]);
+                });
+
+                return fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    body: body
+                }).then(function (response) {
+                    return response.json();
+                }).catch(function () {
+                    return {
+                        ok: false,
+                        message: "無法連線到 Google Apps Script。請確認部署權限與 Web App URL。"
+                    };
+                });
+            }
+
+            function setSession(user) {
+                localStorage.setItem(sessionKey, JSON.stringify({
+                    name: user.name,
+                    email: user.email
+                }));
+                renderSession();
+                window.setTimeout(scrollToMemberCourse, 180);
+            }
+
+            function getSession() {
+                try {
+                    return JSON.parse(localStorage.getItem(sessionKey));
+                } catch (error) {
+                    return null;
+                }
+            }
+
+            function renderSession() {
+                var session = getSession();
+                if (!userSummary) {
+                    return;
+                }
+                document.body.classList.toggle("has-session", Boolean(session));
+                userSummary.classList.toggle("hidden", !session);
+                if (session) {
+                    userNameTargets.forEach(function (target) {
+                        target.textContent = session.name;
+                    });
+                }
+            }
+
+            function getWorkshopData() {
+                try {
+                    return JSON.parse(localStorage.getItem(workshopKey)) || {};
+                } catch (error) {
+                    return {};
+                }
+            }
+
+            function collectWorkshopData() {
+                var data = {
+                    dreams: [],
+                    fields: {},
+                    actions: [],
+                    photo: null,
+                    updatedAt: new Date().toISOString()
+                };
+
+                dreamInputs.forEach(function (input) {
+                    data.dreams[Number(input.getAttribute("data-dream-cell"))] = input.value;
+                });
+
+                workshopFields.forEach(function (field) {
+                    data.fields[field.getAttribute("data-workshop-field")] = field.value;
+                });
+
+                actionInputs.forEach(function (input) {
+                    var index = Number(input.getAttribute("data-action-input"));
+                    var check = document.querySelector('[data-action-check="' + index + '"]');
+                    data.actions[index] = {
+                        text: input.value,
+                        done: check ? check.checked : false
+                    };
+                });
+
+                var existing = getWorkshopData();
+                data.photo = existing.photo || null;
+                return data;
+            }
+
+            function saveWorkshopData(data) {
+                localStorage.setItem(workshopKey, JSON.stringify(data));
+            }
+
+            function renderWorkshopData() {
+                var data = getWorkshopData();
+
+                dreamInputs.forEach(function (input) {
+                    var index = Number(input.getAttribute("data-dream-cell"));
+                    input.value = data.dreams && data.dreams[index] ? data.dreams[index] : "";
+                });
+
+                workshopFields.forEach(function (field) {
+                    var key = field.getAttribute("data-workshop-field");
+                    field.value = data.fields && data.fields[key] ? data.fields[key] : "";
+                });
+
+                actionInputs.forEach(function (input) {
+                    var index = Number(input.getAttribute("data-action-input"));
+                    input.value = data.actions && data.actions[index] ? data.actions[index].text || "" : "";
+                });
+
+                actionChecks.forEach(function (check) {
+                    var index = Number(check.getAttribute("data-action-check"));
+                    check.checked = Boolean(data.actions && data.actions[index] && data.actions[index].done);
+                });
+
+                if (data.photo && photoPreview && photoPlaceholder && photoName) {
+                    photoPreview.src = data.photo.dataUrl;
+                    photoPreview.style.display = "block";
+                    photoPlaceholder.style.display = "none";
+                    photoName.textContent = data.photo.name || "已保存照片";
+                }
+            }
+
+            function saveCurrentWorkshop(messageText) {
+                var data = collectWorkshopData();
+                saveWorkshopData(data);
+                setWorkshopMessage(messageText || "已保存本次親子共學紀錄。", "ok");
+            }
+
+            function loadSampleWorkshop() {
+                var sample = {
+                    dreams: ["畫畫", "動物", "旅行", "讓家人開心", "打電動", "科學實驗", "寫故事", "幫助別人"],
+                    fields: {
+                        coreDream: "當插畫家",
+                        chosenDream: "畫畫",
+                        what: "我想畫出自己想像中的角色，也想把故事畫成漫畫。",
+                        why: "畫畫讓我覺得很自由，而且我可以把心裡的想法說出來。",
+                        how: "每天畫一張小圖，週末找一位喜歡的畫家來模仿。"
+                    },
+                    actions: [
+                        { text: "每天畫一張 10 分鐘小圖", done: false },
+                        { text: "週末看一個插畫教學影片", done: false },
+                        { text: "選一個喜歡的角色重新設計", done: false }
+                    ],
+                    photo: null,
+                    updatedAt: new Date().toISOString()
+                };
+                saveWorkshopData(sample);
+                renderWorkshopData();
+                setWorkshopMessage("已載入夢想九宮格範例，可以直接修改成孩子自己的內容。", "ok");
+            }
+
+            function clearWorkshop() {
+                localStorage.removeItem(workshopKey);
+                renderWorkshopData();
+                if (photoPreview && photoPlaceholder && photoName) {
+                    photoPreview.removeAttribute("src");
+                    photoPreview.style.display = "none";
+                    photoPlaceholder.style.display = "block";
+                    photoName.textContent = "尚未選擇照片";
+                }
+                setWorkshopMessage("已清空本機保存的共學紀錄。", "ok");
+            }
+
+            tabs.forEach(function (tab) {
+                tab.addEventListener("click", function () {
+                    setActiveTab(tab.getAttribute("data-tab"));
+                });
+            });
+
+            scrollAuthButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    var tabName = button.getAttribute("data-auth-tab") || "login";
+                    setActiveTab(tabName);
+                    document.getElementById("auth").scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+            });
+
+            if (navToggle) {
+                navToggle.addEventListener("click", function () {
+                    setNav(!document.body.classList.contains("is-nav-open"));
+                });
+            }
+
+            navCloseTargets.forEach(function (target) {
+                target.addEventListener("click", function () {
+                    setNav(false);
+                });
+            });
+
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape") {
+                    setNav(false);
+                }
+            });
+
+            registerForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                var name = document.getElementById("registerName").value.trim();
+                var email = document.getElementById("registerEmail").value.trim().toLowerCase();
+                var password = document.getElementById("registerPassword").value;
+
+                if (!name || !email || password.length < 6) {
+                    setMessage("請輸入姓名、有效信箱與至少 6 個字元的密碼。", "error");
+                    return;
+                }
+
+                setMessage("正在建立帳號...", "ok");
+
+                apiRequest("register", {
+                    name: name,
+                    email: email,
+                    password: password
+                }).then(function (result) {
+                    if (!result.ok) {
+                        setMessage(result.message || "註冊失敗。", "error");
+                        return;
+                    }
+
+                    setSession(result.user);
+                    registerForm.reset();
+                    setMessage("註冊成功，已登入。正在開啟會員課程。", "ok");
+                });
+            });
+
+            loginForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                var email = document.getElementById("loginEmail").value.trim().toLowerCase();
+                var password = document.getElementById("loginPassword").value;
+
+                if (!email || !password) {
+                    setMessage("請輸入信箱與密碼。", "error");
+                    return;
+                }
+
+                setMessage("正在登入...", "ok");
+
+                apiRequest("login", {
+                    email: email,
+                    password: password
+                }).then(function (result) {
+                    if (!result.ok) {
+                        setMessage(result.message || "登入失敗。", "error");
+                        return;
+                    }
+
+                    setSession(result.user);
+                    loginForm.reset();
+                    setMessage("登入成功，正在開啟會員課程。", "ok");
+                });
+            });
+
+            if (logoutButton) {
+                logoutButton.addEventListener("click", function () {
+                    localStorage.removeItem(sessionKey);
+                    renderSession();
+                    document.getElementById("workspace").scrollIntoView({ behavior: "smooth", block: "start" });
+                    setMessage("你已登出。", "ok");
+                });
+            }
+
+            if (saveWorkshopButton) {
+                saveWorkshopButton.addEventListener("click", function () {
+                    saveCurrentWorkshop();
+                });
+            }
+
+            if (loadSampleButton) {
+                loadSampleButton.addEventListener("click", loadSampleWorkshop);
+            }
+
+            if (clearWorkshopButton) {
+                clearWorkshopButton.addEventListener("click", clearWorkshop);
+            }
+
+            if (photoUpload) {
+                photoUpload.addEventListener("change", function () {
+                    var file = photoUpload.files && photoUpload.files[0];
+                    if (!file) {
+                        return;
+                    }
+
+                    if (!file.type.match(/^image\//)) {
+                        setWorkshopMessage("請選擇圖片檔案。", "error");
+                        return;
+                    }
+
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        var data = collectWorkshopData();
+                        data.photo = {
+                            name: file.name,
+                            type: file.type,
+                            dataUrl: event.target.result
+                        };
+                        saveWorkshopData(data);
+
+                        if (photoPreview && photoPlaceholder && photoName) {
+                            photoPreview.src = event.target.result;
+                            photoPreview.style.display = "block";
+                            photoPlaceholder.style.display = "none";
+                            photoName.textContent = file.name;
+                        }
+
+                        setWorkshopMessage("照片已加入本次共學紀錄。", "ok");
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            renderSession();
+            renderWorkshopData();
+        })();
+    </script>
+</body>
+</html>
