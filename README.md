@@ -61,6 +61,15 @@ var APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
 改成你的 Web App URL。
 
+### Admin 試用帳號
+
+如果 Apps Script 還沒有設定好，也可以先用本機試用帳號進入會員課程：
+
+- email：`admin@demo.local`
+- 密碼：`admin1234`
+
+這組帳號只存在前端程式裡，用來快速查看課程內容，不會寫入 Google Sheet，也不適合正式收費營運。
+
 ### 發布給合夥人試用
 
 1. 先完成 Google Sheet 與 Apps Script 部署。

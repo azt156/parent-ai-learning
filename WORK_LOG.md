@@ -48,6 +48,8 @@
 - 移除 Google Identity Services script、Google 登入按鈕與 `GOOGLE_CLIENT_ID` 設定。
 - Apps Script 退回 `register` / `login` API，只需填入 `SPREADSHEET_ID`。
 - README 改回只需 Google Sheet ID 與 Apps Script Web App URL 的部署流程。
+- 新增前端 Admin 試用帳號 `admin@demo.local` / `admin1234`，即使 Apps Script 未設定也能先登入查看會員課程。
+- README 補上 Admin 試用帳號說明。
 
 ### 未完成 / 待確認
 
@@ -58,6 +60,7 @@
 - GitHub Pages 靜態版的前端鎖課程適合示範與早期試用；若要正式收費營運，仍需要正式後端會員權限。
 - 會員課程影片使用 YouTube 嵌入，合夥人試用環境需能正常連到 YouTube。
 - 目前簡化版不是真正 Google 帳號登入；家長需輸入 email 與自設密碼。
+- Admin 試用帳號只適合展示、驗收與查看課程內容，不適合正式收費營運。
 
 ### 下一步建議
 

@@ -12,7 +12,7 @@
  * 8. 將 Web App URL 貼回 index.html 的 APPS_SCRIPT_URL。
  */
 
-const SPREADSHEET_ID = '1eNIdZat8egRP0Nrp1fTopoZy0k_VjRWXzCGKVAUvqZg';
+const SPREADSHEET_ID = 'PASTE_YOUR_GOOGLE_SHEET_ID_HERE';
 const USERS_SHEET_NAME = 'users';
 const SESSIONS_SHEET_NAME = 'login_logs';
 

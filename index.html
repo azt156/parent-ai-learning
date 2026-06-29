@@ -1520,6 +1520,10 @@
                     </div>
 
                     <form class="form" id="loginForm">
+                        <div class="soft-strip">
+                            <span class="icon-tile">試</span>
+                            <p style="margin:0;"><strong>Admin 試用帳號：</strong><br><span class="caption">email：admin@demo.local，密碼：admin1234。尚未設定 Apps Script 時，也可以先登入看會員課程。</span></p>
+                        </div>
                         <div class="field">
                             <label for="loginEmail">Gmail / 電子信箱</label>
                             <input class="input" id="loginEmail" type="email" autocomplete="email" required>
@@ -1528,7 +1532,10 @@
                             <label for="loginPassword">密碼</label>
                             <input class="input" id="loginPassword" type="password" autocomplete="current-password" required>
                         </div>
-                        <button class="button" type="submit">登入</button>
+                        <div class="save-row" style="margin-top:0;">
+                            <button class="button" type="submit">登入</button>
+                            <button class="button secondary" type="button" data-fill-demo-admin>填入 Admin 試用帳號</button>
+                        </div>
                     </form>
 
                     <form class="form hidden" id="registerForm">
@@ -1569,7 +1576,7 @@
 
     <script>
         (function () {
-            var APPS_SCRIPT_URL = "https://script.google.com/macros/library/d/14_hcxJDzR2-nh69X_YcBivHQKjs0Bj2qpd-FIwL1EMfhDk06p9TM_Cvb/6";
+            var APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
             var sessionKey = "fep_parent_learning_session";
             var workshopKey = "fep_parent_learning_workshop";
             var navToggle = document.querySelector("[data-nav-toggle]");
@@ -1595,6 +1602,9 @@
             var photoPreview = document.querySelector("[data-photo-preview]");
             var photoPlaceholder = document.querySelector("[data-photo-placeholder]");
             var photoName = document.querySelector("[data-photo-name]");
+            var fillDemoAdminButton = document.querySelector("[data-fill-demo-admin]");
+            var demoAdminEmail = "admin@demo.local";
+            var demoAdminPassword = "admin1234";
 
             function setNav(open) {
                 document.body.classList.toggle("is-nav-open", open);
@@ -1677,6 +1687,18 @@
                 }));
                 renderSession();
                 window.setTimeout(scrollToMemberCourse, 180);
+            }
+
+            function isDemoAdmin(email, password) {
+                return email === demoAdminEmail && password === demoAdminPassword;
+            }
+
+            function loginDemoAdmin() {
+                setSession({
+                    name: "Admin 試用帳號",
+                    email: demoAdminEmail
+                });
+                setMessage("已用 Admin 試用帳號登入，正在開啟會員課程。", "ok");
             }
 
             function getSession() {
@@ -1888,6 +1910,12 @@
                     return;
                 }
 
+                if (isDemoAdmin(email, password)) {
+                    loginDemoAdmin();
+                    loginForm.reset();
+                    return;
+                }
+
                 setMessage("正在登入...", "ok");
 
                 apiRequest("login", {
@@ -1904,6 +1932,15 @@
                     setMessage("登入成功，正在開啟會員課程。", "ok");
                 });
             });
+
+            if (fillDemoAdminButton) {
+                fillDemoAdminButton.addEventListener("click", function () {
+                    setActiveTab("login");
+                    document.getElementById("loginEmail").value = demoAdminEmail;
+                    document.getElementById("loginPassword").value = demoAdminPassword;
+                    setMessage("已填入 Admin 試用帳號，按登入即可查看會員課程。", "ok");
+                });
+            }
 
             if (logoutButton) {
                 logoutButton.addEventListener("click", function () {
