@@ -36,7 +36,14 @@
 - 將夢想九宮格中央格改成可填寫的暫定夢想，例如：當醫生、當作家、做遊戲。
 - 將完整課程流程、夢想九宮格、What / Why / How、行動清單與拍照上傳移到登入後才顯示。
 - 在登入後會員課程起點嵌入夢想主題 YouTube 影片，讓家長先帶孩子共看，再進入九宮格活動。
+- 將登入機制從「Gmail / 電子信箱 + 密碼」改為真正的 Google 帳號登入。
+- 前端新增 Google Identity Services 登入按鈕，不再要求家長輸入密碼。
+- Apps Script 改為接收 Google ID token，驗證後寫入 Google Sheet。
+- Google Sheet 會員欄位新增 Google 帳號識別碼、頭像、登入來源與最後登入時間。
+- README 補上 Google OAuth Client ID 設定流程。
 - README 新增 GitHub Pages 發布與合夥人試用流程。
+- 修正首頁 Hero 下方指標卡與按鈕重疊問題，取消過度上移的卡片布局。
+- 將 Google Sheet 文案改為「寫入 `Code.gs` 的 `SPREADSHEET_ID` 指定試算表」，避免誤解為家長自己的 Sheet。
 
 ### 未完成 / 待確認
 
@@ -46,6 +53,7 @@
 - 成人跨域區塊目前只做概念展示，尚未提供實際課程與功能。
 - GitHub Pages 靜態版的前端鎖課程適合示範與早期試用；若要正式收費營運，仍需要正式後端會員權限。
 - 會員課程影片使用 YouTube 嵌入，合夥人試用環境需能正常連到 YouTube。
+- Google 帳號登入需要先建立 OAuth Web Client ID，並把 GitHub Pages 網址加入 Authorized JavaScript origins。
 
 ### 下一步建議
 
