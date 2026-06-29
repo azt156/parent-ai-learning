@@ -44,6 +44,10 @@
 - README 新增 GitHub Pages 發布與合夥人試用流程。
 - 修正首頁 Hero 下方指標卡與按鈕重疊問題，取消過度上移的卡片布局。
 - 將 Google Sheet 文案改為「寫入 `Code.gs` 的 `SPREADSHEET_ID` 指定試算表」，避免誤解為家長自己的 Sheet。
+- 依使用者決策，將登入機制從真正 Google 帳號登入退回「Gmail / 電子信箱 + 密碼」簡化版。
+- 移除 Google Identity Services script、Google 登入按鈕與 `GOOGLE_CLIENT_ID` 設定。
+- Apps Script 退回 `register` / `login` API，只需填入 `SPREADSHEET_ID`。
+- README 改回只需 Google Sheet ID 與 Apps Script Web App URL 的部署流程。
 
 ### 未完成 / 待確認
 
@@ -53,7 +57,7 @@
 - 成人跨域區塊目前只做概念展示，尚未提供實際課程與功能。
 - GitHub Pages 靜態版的前端鎖課程適合示範與早期試用；若要正式收費營運，仍需要正式後端會員權限。
 - 會員課程影片使用 YouTube 嵌入，合夥人試用環境需能正常連到 YouTube。
-- Google 帳號登入需要先建立 OAuth Web Client ID，並把 GitHub Pages 網址加入 Authorized JavaScript origins。
+- 目前簡化版不是真正 Google 帳號登入；家長需輸入 email 與自設密碼。
 
 ### 下一步建議
 

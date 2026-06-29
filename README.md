@@ -32,12 +32,11 @@
 
 提醒：這是 GitHub Pages 靜態版，所以前端鎖課程適合示範銷售流程；若要正式收費與完整防護，應改用正式後端會員權限。
 
-## Google 帳號登入 + Google Sheet 資料庫
+## Gmail / 電子信箱登入 + Google Sheet 資料庫
 
 本頁的登入採用：
 
 - GitHub Pages 前端
-- Google Identity Services 帳號登入
 - Google Apps Script Web App
 - Google Sheet 作為簡易資料庫
 
@@ -46,31 +45,15 @@
 1. 在 Google Drive 建立一份新的 Google Sheet。
 2. 複製網址中的 Sheet ID。
    - 例如：`https://docs.google.com/spreadsheets/d/SHEET_ID/edit`
-3. 到 Google Cloud Console 建立 OAuth Client ID。
-4. Application type 選 `Web application`。
-5. Authorized JavaScript origins 加入你的 GitHub Pages 網址，例如：
-
-```text
-https://你的GitHub帳號.github.io
-```
-
-6. 複製產生的 OAuth Client ID。
-7. 到 `script.google.com/create` 建立 Apps Script 專案。
-8. 將 `apps-script/Code.gs` 的內容貼到 Apps Script。
-9. 將 `SPREADSHEET_ID` 改成你的 Sheet ID。
-10. 將 `GOOGLE_CLIENT_ID` 改成你的 OAuth Client ID。
-11. 點選 `Deploy` > `New deployment`。
-12. 類型選 `Web app`。
-13. `Execute as` 選 `Me`。
-14. `Who has access` 選 `Anyone`。
-15. 部署後複製 Web App URL。
-16. 回到 `index.html`，把：
-
-```js
-var GOOGLE_CLIENT_ID = "PASTE_YOUR_GOOGLE_OAUTH_CLIENT_ID_HERE";
-```
-
-改成你的 OAuth Client ID，並把：
+3. 到 `script.google.com/create` 建立 Apps Script 專案。
+4. 將 `apps-script/Code.gs` 的內容貼到 Apps Script。
+5. 將 `SPREADSHEET_ID` 改成你的 Sheet ID。
+6. 點選 `Deploy` > `New deployment`。
+7. 類型選 `Web app`。
+8. `Execute as` 選 `Me`。
+9. `Who has access` 選 `Anyone`。
+10. 部署後複製 Web App URL。
+11. 回到 `index.html`，把：
 
 ```js
 var APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
@@ -80,16 +63,15 @@ var APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
 ### 發布給合夥人試用
 
-1. 先完成 Google Sheet、OAuth Client ID 與 Apps Script 部署。
-2. 將 OAuth Client ID 填入 `index.html` 的 `GOOGLE_CLIENT_ID`。
-3. 將 Apps Script Web App URL 填入 `index.html` 的 `APPS_SCRIPT_URL`。
+1. 先完成 Google Sheet 與 Apps Script 部署。
+2. 將 Apps Script Web App URL 填入 `index.html` 的 `APPS_SCRIPT_URL`。
 3. 建立一個 GitHub repo。
 4. 把 `github-pages/parent-ai-learning/` 裡的內容放到 repo 根目錄。
 5. 到 GitHub repo 的 `Settings` > `Pages`。
 6. `Build and deployment` 選 `Deploy from a branch`。
 7. Branch 選 `main`，資料夾選 `/root`。
 8. 儲存後等待 GitHub Pages 產生網址。
-9. 用無痕視窗測試 Google 登入、登入後會員課程是否出現。
+9. 用無痕視窗測試註冊、登入、登入後會員課程是否出現。
 
 ### Google Sheet 欄位
 
@@ -109,19 +91,14 @@ Apps Script 會自動建立：
 - `status`
 - `note`
 - `admin_tag`
-- `google_sub`
-- `picture`
-- `auth_provider`
-- `last_login_at`
 
 前台不詢問身份。後台可用 `note` 或 `admin_tag` 自行註記身份、來源或課程狀態。
 
-### 登入資料保存
+### 密碼保存
 
-- 前端不再要求使用者輸入密碼。
-- 使用者按 Google 登入後，Google 會回傳 ID token。
-- Apps Script 會向 Google 驗證 ID token。
-- Google Sheet 保存姓名、email、Google 帳號識別碼、頭像網址與登入時間。
+- 前端會把使用者輸入的密碼送到 Apps Script。
+- Apps Script 會用 salt + SHA-256 產生雜湊。
+- Google Sheet 不保存明文密碼。
 - 這是輕量展示架構，不等同完整資安等級的正式會員系統。
 
 正式大量使用時，建議升級 Firebase Auth、Supabase Auth 或自架後端。

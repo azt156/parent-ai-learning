@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AI 未來探索平台｜親子共學推廣頁</title>
     <meta name="description" content="AI 未來探索平台親子共學推廣頁。協助家長成為孩子的引導者，從興趣開始找到夢想方向。">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
             --feds-primary: #1E6F5C;
@@ -825,20 +824,6 @@
             margin-top: 24px;
         }
 
-        .google-auth-box {
-            display: grid;
-            gap: 18px;
-            margin-top: 24px;
-            padding: 24px;
-            background: rgba(250, 249, 246, .78);
-            border: 1px solid var(--feds-border);
-            border-radius: 24px;
-        }
-
-        .google-button-host {
-            min-height: 44px;
-        }
-
         .field label {
             display: block;
             margin-bottom: 8px;
@@ -1169,7 +1154,7 @@
 
         <nav class="nav-group" aria-label="帳號與跨域">
             <p class="nav-label">帳號與跨域</p>
-            <a class="drawer-link" href="#auth"><span class="drawer-icon">🔐</span>Google 登入</a>
+            <a class="drawer-link" href="#auth"><span class="drawer-icon">🔐</span>登入註冊</a>
             <a class="drawer-link" href="#adult"><span class="drawer-icon">✦</span>成人跨域</a>
         </nav>
     </aside>
@@ -1186,7 +1171,7 @@
                 <span class="pill">🧭 課程設計</span>
                 <a class="pill" href="#workspace">✎ 會員課程</a>
                 <button class="pill" type="button" data-scroll-auth data-auth-tab="login">登入</button>
-                <button class="pill" type="button" data-scroll-auth>Google 登入</button>
+                <button class="pill" type="button" data-scroll-auth data-auth-tab="register">註冊</button>
             </div>
         </header>
 
@@ -1234,7 +1219,7 @@
                     <p class="metric-caption">跨域能力願景</p>
                 </article>
                 <article class="card metric">
-                    <p class="metric-label">Google 登入</p>
+                    <p class="metric-label">登入註冊</p>
                     <p class="metric-value">Demo</p>
                     <p class="metric-caption">GitHub Pages 可用</p>
                 </article>
@@ -1280,7 +1265,7 @@
                         <div>
                             <p class="kicker">Google Login</p>
                             <h2 class="panel-title">登入後可以保存自己的親子共學紀錄</h2>
-                            <p class="panel-subtitle">家長用 Google 登入後，基本帳號資料會寫入你在 Apps Script 指定的那份 Google Sheet；登入狀態與課程操作暫存在使用者瀏覽器。</p>
+                            <p class="panel-subtitle">帳號資料會寫入你在 Apps Script 指定的那份 Google Sheet；登入狀態與課程操作暫存在使用者瀏覽器。</p>
                         </div>
                     </div>
                     <div class="soft-strip">
@@ -1310,7 +1295,7 @@
                     <p style="margin:0;"><strong>完整課程實作需登入後使用。</strong><br><span class="caption">公開頁只呈現課程設計方向，避免付費課程內容在外層直接被操作或完整取得。</span></p>
                 </div>
                 <div class="save-row">
-                    <button class="button ai" type="button" data-scroll-auth>Google 登入後進入課程</button>
+                    <button class="button ai" type="button" data-scroll-auth data-auth-tab="register">註冊後進入課程</button>
                     <button class="button secondary" type="button" data-scroll-auth data-auth-tab="login">我已有帳號</button>
                 </div>
             </section>
@@ -1319,10 +1304,10 @@
                 <article class="card panel locked-course guest-only">
                     <div class="locked-content">
                         <p class="kicker">Member Course</p>
-                        <h2 class="panel-title">用 Google 帳號登入後，才會開啟夢想九宮格實作課程</h2>
+                        <h2 class="panel-title">註冊或登入後，才會開啟夢想九宮格實作課程</h2>
                         <p class="panel-subtitle">這裡是付費課程示範區。外層只保留課程設計摘要，真正的九宮格、親子提問、行動清單、拍照上傳與保存功能會在登入後顯示。</p>
                         <div class="save-row">
-                            <button class="button ai" type="button" data-scroll-auth>Google 登入進入課程</button>
+                            <button class="button ai" type="button" data-scroll-auth data-auth-tab="register">建立帳號進入課程</button>
                             <button class="button secondary" type="button" data-scroll-auth data-auth-tab="login">登入會員課程</button>
                         </div>
                     </div>
@@ -1516,31 +1501,51 @@
             <section class="section auth-panel" id="auth">
                 <article class="card panel dashboard-card">
                     <span class="status">GitHub Pages Demo</span>
-                    <h2 class="panel-title" style="margin-top:18px;">使用 Google 帳號登入，資料寫入 Google Sheet</h2>
-                    <p class="panel-subtitle">家長不用另外設定密碼。登入時由 Google 驗證身分，再由 Apps Script 把姓名與 email 寫入你的 Google Sheet。</p>
+                    <h2 class="panel-title" style="margin-top:18px;">使用 Gmail / 電子信箱與密碼登入</h2>
+                    <p class="panel-subtitle">這是最快能部署的 GitHub Pages 試用版。帳號資料會寫入你在 Apps Script 指定的 Google Sheet，密碼不以明文保存。</p>
                     <div class="soft-strip" style="margin-top:24px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.16);">
                         <span class="icon-tile" style="background:rgba(255,255,255,.16);color:#fff;">!</span>
-                        <p style="margin:0;"><strong>設定提醒：</strong><br><span class="caption">發布前請填入 Google OAuth Client ID 與 Apps Script Web App URL，並確認 Apps Script 設為「任何人」可存取。</span></p>
+                        <p style="margin:0;"><strong>設定提醒：</strong><br><span class="caption">發布前只需要填入 Apps Script Web App URL，並確認 Apps Script 設為「任何人」可存取。</span></p>
                     </div>
                     <div class="soft-strip" style="margin-top:16px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.16);">
                         <span class="icon-tile" style="background:rgba(255,255,255,.16);color:#fff;">DB</span>
-                        <p style="margin:0;"><strong>資料表欄位：</strong><br><span class="caption">姓名、email、Google 帳號識別碼、頭像、狀態、後台備註、後台標籤。身份不在前台詢問，之後可由後台自行補註。</span></p>
+                        <p style="margin:0;"><strong>資料表欄位：</strong><br><span class="caption">姓名、email、密碼 salt、密碼雜湊、狀態、後台備註、後台標籤。身份不在前台詢問，之後可由後台自行補註。</span></p>
                     </div>
                 </article>
 
                 <article class="card panel">
-                    <div class="panel-head">
-                        <div>
-                            <p class="kicker">Google Sign-In</p>
-                            <h2 class="panel-title">用 Google 帳號進入會員課程</h2>
-                            <p class="panel-subtitle">按下 Google 登入後，系統會自動建立或更新你的會員資料，不需要另外輸入密碼。</p>
-                        </div>
+                    <div class="tabs" role="tablist" aria-label="登入註冊切換">
+                        <button class="tab active" type="button" data-tab="login">登入</button>
+                        <button class="tab" type="button" data-tab="register">註冊</button>
                     </div>
 
-                    <div class="google-auth-box">
-                        <div id="googleSignInButton" class="google-button-host"></div>
-                        <p class="caption" style="margin:0;">登入成功後會自動開啟會員課程。Google 只會提供基本資料：姓名、email 與帳號識別碼。</p>
-                    </div>
+                    <form class="form" id="loginForm">
+                        <div class="field">
+                            <label for="loginEmail">Gmail / 電子信箱</label>
+                            <input class="input" id="loginEmail" type="email" autocomplete="email" required>
+                        </div>
+                        <div class="field">
+                            <label for="loginPassword">密碼</label>
+                            <input class="input" id="loginPassword" type="password" autocomplete="current-password" required>
+                        </div>
+                        <button class="button" type="submit">登入</button>
+                    </form>
+
+                    <form class="form hidden" id="registerForm">
+                        <div class="field">
+                            <label for="registerName">姓名</label>
+                            <input class="input" id="registerName" type="text" autocomplete="name" required>
+                        </div>
+                        <div class="field">
+                            <label for="registerEmail">Gmail / 電子信箱</label>
+                            <input class="input" id="registerEmail" type="email" autocomplete="email" required>
+                        </div>
+                        <div class="field">
+                            <label for="registerPassword">密碼</label>
+                            <input class="input" id="registerPassword" type="password" minlength="6" autocomplete="new-password" required>
+                        </div>
+                        <button class="button ai" type="submit">建立帳號</button>
+                    </form>
 
                     <div id="authMessage" class="message hidden" style="margin-top:18px;" role="status"></div>
                 </article>
@@ -1564,18 +1569,19 @@
 
     <script>
         (function () {
-            var GOOGLE_CLIENT_ID = "PASTE_YOUR_GOOGLE_OAUTH_CLIENT_ID_HERE";
             var APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
             var sessionKey = "fep_parent_learning_session";
             var workshopKey = "fep_parent_learning_workshop";
             var navToggle = document.querySelector("[data-nav-toggle]");
             var navCloseTargets = document.querySelectorAll("[data-nav-close], .drawer-link");
-            var googleSignInButton = document.getElementById("googleSignInButton");
+            var loginForm = document.getElementById("loginForm");
+            var registerForm = document.getElementById("registerForm");
             var message = document.getElementById("authMessage");
             var workshopMessage = document.getElementById("workshopMessage");
             var userSummary = document.getElementById("userSummary");
             var userNameTargets = document.querySelectorAll("[data-user-name]");
             var memberCourse = document.getElementById("memberCourse");
+            var tabs = document.querySelectorAll("[data-tab]");
             var scrollAuthButtons = document.querySelectorAll("[data-scroll-auth]");
             var logoutButton = document.querySelector("[data-logout]");
             var dreamInputs = document.querySelectorAll("[data-dream-cell]");
@@ -1603,10 +1609,6 @@
                 return APPS_SCRIPT_URL && APPS_SCRIPT_URL.indexOf("PASTE_YOUR") === -1;
             }
 
-            function isGoogleConfigured() {
-                return GOOGLE_CLIENT_ID && GOOGLE_CLIENT_ID.indexOf("PASTE_YOUR") === -1;
-            }
-
             function setMessage(text, type) {
                 message.textContent = text;
                 message.className = "message " + type;
@@ -1629,6 +1631,15 @@
                 if (memberCourse) {
                     memberCourse.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
+            }
+
+            function setActiveTab(tabName) {
+                tabs.forEach(function (tab) {
+                    tab.classList.toggle("active", tab.getAttribute("data-tab") === tabName);
+                });
+                loginForm.classList.toggle("hidden", tabName !== "login");
+                registerForm.classList.toggle("hidden", tabName !== "register");
+                clearMessage();
             }
 
             function apiRequest(action, payload) {
@@ -1656,63 +1667,6 @@
                         ok: false,
                         message: "無法連線到 Google Apps Script。請確認部署權限與 Web App URL。"
                     };
-                });
-            }
-
-            function handleGoogleCredential(response) {
-                if (!response || !response.credential) {
-                    setMessage("Google 登入沒有取得授權資料，請再試一次。", "error");
-                    return;
-                }
-
-                setMessage("正在用 Google 帳號登入...", "ok");
-
-                apiRequest("googleLogin", {
-                    idToken: response.credential
-                }).then(function (result) {
-                    if (!result.ok) {
-                        setMessage(result.message || "Google 登入失敗。", "error");
-                        return;
-                    }
-
-                    setSession(result.user);
-                    setMessage("Google 登入成功，正在開啟會員課程。", "ok");
-                });
-            }
-
-            function initGoogleSignIn() {
-                if (!googleSignInButton) {
-                    return;
-                }
-
-                if (!isGoogleConfigured()) {
-                    setMessage("尚未設定 Google OAuth Client ID。請先在 Google Cloud 建立 Web client ID，並貼回 index.html。", "error");
-                    googleSignInButton.innerHTML = '<button class="button ghost" type="button" disabled>尚未設定 Google 登入</button>';
-                    return;
-                }
-
-                if (!isApiConfigured()) {
-                    setMessage("尚未設定 Apps Script Web App URL。請先完成 Google Sheet 後端部署。", "error");
-                    googleSignInButton.innerHTML = '<button class="button ghost" type="button" disabled>尚未設定後端</button>';
-                    return;
-                }
-
-                if (!window.google || !window.google.accounts || !window.google.accounts.id) {
-                    window.setTimeout(initGoogleSignIn, 250);
-                    return;
-                }
-
-                window.google.accounts.id.initialize({
-                    client_id: GOOGLE_CLIENT_ID,
-                    callback: handleGoogleCredential
-                });
-
-                window.google.accounts.id.renderButton(googleSignInButton, {
-                    theme: "outline",
-                    size: "large",
-                    width: Math.min(420, googleSignInButton.offsetWidth || 420),
-                    text: "continue_with",
-                    locale: "zh_TW"
                 });
             }
 
@@ -1870,6 +1824,8 @@
 
             scrollAuthButtons.forEach(function (button) {
                 button.addEventListener("click", function () {
+                    var tabName = button.getAttribute("data-auth-tab") || "login";
+                    setActiveTab(tabName);
                     clearMessage();
                     document.getElementById("auth").scrollIntoView({ behavior: "smooth", block: "start" });
                 });
@@ -1893,12 +1849,65 @@
                 }
             });
 
+            registerForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                var name = document.getElementById("registerName").value.trim();
+                var email = document.getElementById("registerEmail").value.trim().toLowerCase();
+                var password = document.getElementById("registerPassword").value;
+
+                if (!name || !email || password.length < 6) {
+                    setMessage("請輸入姓名、有效信箱與至少 6 個字元的密碼。", "error");
+                    return;
+                }
+
+                setMessage("正在建立帳號...", "ok");
+
+                apiRequest("register", {
+                    name: name,
+                    email: email,
+                    password: password
+                }).then(function (result) {
+                    if (!result.ok) {
+                        setMessage(result.message || "註冊失敗。", "error");
+                        return;
+                    }
+
+                    setSession(result.user);
+                    registerForm.reset();
+                    setMessage("註冊成功，已登入。正在開啟會員課程。", "ok");
+                });
+            });
+
+            loginForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                var email = document.getElementById("loginEmail").value.trim().toLowerCase();
+                var password = document.getElementById("loginPassword").value;
+
+                if (!email || !password) {
+                    setMessage("請輸入信箱與密碼。", "error");
+                    return;
+                }
+
+                setMessage("正在登入...", "ok");
+
+                apiRequest("login", {
+                    email: email,
+                    password: password
+                }).then(function (result) {
+                    if (!result.ok) {
+                        setMessage(result.message || "登入失敗。", "error");
+                        return;
+                    }
+
+                    setSession(result.user);
+                    loginForm.reset();
+                    setMessage("登入成功，正在開啟會員課程。", "ok");
+                });
+            });
+
             if (logoutButton) {
                 logoutButton.addEventListener("click", function () {
                     localStorage.removeItem(sessionKey);
-                    if (window.google && window.google.accounts && window.google.accounts.id) {
-                        window.google.accounts.id.disableAutoSelect();
-                    }
                     renderSession();
                     document.getElementById("workspace").scrollIntoView({ behavior: "smooth", block: "start" });
                     setMessage("你已登出。", "ok");
@@ -1956,7 +1965,6 @@
 
             renderSession();
             renderWorkshopData();
-            initGoogleSignIn();
         })();
     </script>
 </body>
