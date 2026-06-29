@@ -661,6 +661,19 @@
             border-radius: 28px;
         }
 
+        .advanced-unlock {
+            margin-top: 24px;
+            padding: 24px;
+            background: #fff;
+            border: 1px solid rgba(139, 124, 246, .24);
+            border-radius: 28px;
+            box-shadow: var(--feds-soft-shadow);
+        }
+
+        .advanced-challenge.is-collapsed {
+            display: none;
+        }
+
         .advanced-head {
             display: flex;
             gap: 18px;
@@ -1580,12 +1593,22 @@
                     </div>
                     <div class="advanced-actions">
                         <button class="button ai" type="button" data-generate-ai-coach>產生 AI 陪談建議</button>
-                        <button class="button secondary" type="button" data-build-advanced>用建議延伸到 81 格</button>
                     </div>
                     <p class="caption" style="margin:14px 0 0;">Demo 說明：目前先用前端規則模擬 AI 助教；正式版可串接真正 AI API，依孩子輸入產生更貼近的提問與行動建議。</p>
                 </section>
 
-                <section class="advanced-challenge" aria-labelledby="advancedTitle">
+                <section class="advanced-unlock" aria-labelledby="advancedUnlockTitle">
+                    <div class="panel-head">
+                        <div>
+                            <p class="kicker">Advanced Locked</p>
+                            <h3 class="panel-title" id="advancedUnlockTitle" style="font-size:26px;margin:0;">完成初階 9 格後，再解鎖進階 81 格挑戰</h3>
+                            <p class="panel-subtitle">進階課程會加入楊勇緯、鈴木一朗的目標拆解案例，並把孩子的 9 格線索延伸成更完整的行動計畫。</p>
+                        </div>
+                        <button class="button ai" type="button" data-toggle-advanced aria-expanded="false">解鎖進階 81 格挑戰</button>
+                    </div>
+                </section>
+
+                <section class="advanced-challenge is-collapsed" aria-labelledby="advancedTitle" data-advanced-section>
                     <div class="advanced-head">
                         <div>
                             <p class="kicker">Advanced Challenge</p>
@@ -1795,6 +1818,8 @@
             var actionInputs = document.querySelectorAll("[data-action-input]");
             var actionChecks = document.querySelectorAll("[data-action-check]");
             var advancedBoard = document.querySelector("[data-advanced-board]");
+            var advancedSection = document.querySelector("[data-advanced-section]");
+            var toggleAdvancedButton = document.querySelector("[data-toggle-advanced]");
             var buildAdvancedButtons = document.querySelectorAll("[data-build-advanced]");
             var loadAdvancedSampleButton = document.querySelector("[data-load-advanced-sample]");
             var generateAiCoachButton = document.querySelector("[data-generate-ai-coach]");
@@ -1931,6 +1956,7 @@
             }
 
             function buildAdvancedFromNineGrid() {
+                setAdvancedOpen(true);
                 var centers = getNineGridCenters();
                 var labels = ["需要的能力", "可以練習", "找誰請教", "需要資源", "核心線索", "本週行動", "作品證明", "遇到卡關", "下次修正"];
                 getAdvancedInputs().forEach(function (input) {
@@ -1940,6 +1966,18 @@
                     input.value = cell === 4 ? centers[cluster] || "待探索" : labels[cell];
                 });
                 saveCurrentWorkshop("已用上方 9 格生成 81 格進階骨架。");
+            }
+
+            function setAdvancedOpen(open) {
+                if (!advancedSection || !toggleAdvancedButton) {
+                    return;
+                }
+                advancedSection.classList.toggle("is-collapsed", !open);
+                toggleAdvancedButton.setAttribute("aria-expanded", open ? "true" : "false");
+                toggleAdvancedButton.textContent = open ? "收合進階課程" : "解鎖進階 81 格挑戰";
+                if (open) {
+                    advancedSection.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
             }
 
             function renderList(target, items) {
@@ -2172,6 +2210,7 @@
             }
 
             function loadAdvancedSample() {
+                setAdvancedOpen(true);
                 var centers = ["觀察生活", "畫面練習", "故事能力", "作品發表", "當插畫家", "工具熟悉", "模仿大師", "接案體驗", "回饋修正"];
                 var details = ["能力", "練習", "資源", "習慣", "", "本週行動", "作品證明", "卡關提醒", "下一步"];
                 getAdvancedInputs().forEach(function (input) {
@@ -2322,6 +2361,13 @@
             buildAdvancedButtons.forEach(function (button) {
                 button.addEventListener("click", buildAdvancedFromNineGrid);
             });
+
+            if (toggleAdvancedButton) {
+                toggleAdvancedButton.addEventListener("click", function () {
+                    var isOpen = toggleAdvancedButton.getAttribute("aria-expanded") === "true";
+                    setAdvancedOpen(!isOpen);
+                });
+            }
 
             if (generateAiCoachButton) {
                 generateAiCoachButton.addEventListener("click", generateAiCoachAdvice);
